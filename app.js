@@ -10,7 +10,45 @@ const taskToAdd = document.getElementById("task") ;
  function loadEventListeners() {
 
   form.addEventListener('submit', addTask);
+  taskList.addEventListener('click', deleteTask);
+  clearBtn.addEventListener('click', clearTasks);
+  filterTask.addEventListener('keyup', filterTasks);
+
 }
+
+function filterTasks(e){
+  const value = e.target.value.toLowerCase();
+  //console.log(value);
+  const taskItems = document.querySelectorAll('.collection-item').forEach(
+    function(task){
+      var text = task.firstChild.textContent;
+      if(text.toLowerCase().indexOf(value)!=-1){
+        console.log(text);
+        task.style.display='block';      
+      }
+      else{
+        task.style.display='none';      
+      }
+    });
+
+}
+
+function clearTasks(e){
+  while(taskList.firstChild){
+    taskList.removeChild(taskList.firstChild);
+  }
+
+}
+
+ function deleteTask(e){
+ 
+   if (e.target.parentElement!=null && e.target.parentElement.classList.contains('delete-item')){
+     var parent = e.target.parentElement;
+     if (parent.parentElement!=null){
+       parent.parentElement.remove();
+     }
+   }
+ }
 
  function addTask(e){
    if(taskToAdd.value != ''){
